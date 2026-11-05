@@ -1,10 +1,10 @@
 import cn from 'clsx';
-import type { User, EditableData } from '@lib/types/user';
+import type { User, EditableData, FounderTextData } from '@lib/types/user';
 import type { KeyboardEvent, ChangeEvent } from 'react';
 
 export type InputFieldProps = {
   label: string;
-  inputId: EditableData | Extract<keyof User, 'username'>;
+  inputId: EditableData | FounderTextData | Extract<keyof User, 'username'>;
   inputValue: string | null;
   inputLimit?: number;
   useTextArea?: boolean;

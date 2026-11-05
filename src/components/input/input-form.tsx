@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import TextArea from 'react-textarea-autosize';
 import { motion } from 'framer-motion';
 import { useModal } from '@lib/hooks/useModal';
+import { postCategoryMeta } from '@lib/founder';
 import { Modal } from '@components/modal/modal';
 import { ActionModal } from '@components/modal/action-modal';
-import { HeroIcon } from '@components/ui/hero-icon';
 import { Button } from '@components/ui/button';
+import { CategoryPicker } from './category-picker';
 import type {
   ReactNode,
   RefObject,
@@ -14,6 +15,7 @@ import type {
   ClipboardEvent
 } from 'react';
 import type { Variants } from 'framer-motion';
+import type { PostCategory } from '@lib/founder';
 
 type InputFormProps = {
   modal?: boolean;
@@ -24,6 +26,7 @@ type InputFormProps = {
   children: ReactNode;
   inputRef: RefObject<HTMLTextAreaElement>;
   inputValue: string;
+  category: PostCategory | null;
   replyModal?: boolean;
   isValidTweet: boolean;
   isUploadingImages: boolean;
@@ -36,6 +39,7 @@ type InputFormProps = {
   handleImageUpload: (
     e: ChangeEvent<HTMLInputElement> | ClipboardEvent<HTMLTextAreaElement>
   ) => void;
+  handleCategory: (category: PostCategory | null) => void;
 };
 
 const variants: Variants[] = [
@@ -61,13 +65,15 @@ export function InputForm({
   inputRef,
   replyModal,
   inputValue,
+  category,
   isValidTweet,
   isUploadingImages,
   sendTweet,
   handleFocus,
   discardTweet,
   handleChange,
-  handleImageUpload
+  handleImageUpload,
+  handleCategory
 }: InputFormProps): JSX.Element {
   const { open, openModal, closeModal } = useModal();
 
@@ -108,7 +114,14 @@ export function InputForm({
     closeModal();
   };
 
-  const isVisibilityShown = visited && !reply && !replyModal && !loading;
+  const isCategoryShown = visited && !reply && !replyModal && !loading;
+
+  const placeholder =
+    reply || replyModal
+      ? 'Post your reply'
+      : category
+      ? postCategoryMeta[category].placeholder
+      : 'Ask a question, share a win, or tell people what you need';
 
   return (
     <div className='flex min-h-[48px] w-full flex-col justify-center gap-4'>
@@ -127,17 +140,10 @@ export function InputForm({
         />
       </Modal>
       <div className='flex flex-col gap-6'>
-        {isVisibilityShown && (
-          <motion.button
-            type='button'
-            className='custom-button accent-tab accent-bg-tab flex cursor-not-allowed items-center gap-1
-                       self-start border border-light-line-reply py-0 px-3 text-main-accent
-                       hover:bg-main-accent/10 active:bg-main-accent/20 dark:border-light-secondary'
-            {...fromTop}
-          >
-            <p className='font-bold'>Everyone</p>
-            <HeroIcon className='h-4 w-4' iconName='ChevronDownIcon' />
-          </motion.button>
+        {isCategoryShown && (
+          <motion.div {...fromTop}>
+            <CategoryPicker category={category} handleCategory={handleCategory} />
+          </motion.div>
         )}
         <div className='flex items-center gap-3'>
           <TextArea
@@ -145,9 +151,7 @@ export function InputForm({
             className='w-full min-w-0 resize-none bg-transparent text-xl outline-none
                        placeholder:text-light-secondary dark:placeholder:text-dark-secondary'
             value={inputValue}
-            placeholder={
-              reply || replyModal ? 'Post your reply' : "What's happening?"
-            }
+            placeholder={placeholder}
             onBlur={handleShowHideNav(true)}
             minRows={loading ? 1 : modal && !isUploadingImages ? 3 : 1}
             maxRows={isUploadingImages ? 5 : 15}
@@ -168,21 +172,6 @@ export function InputForm({
         </div>
       </div>
       {children}
-      {isVisibilityShown && (
-        <motion.div
-          className='flex border-b border-light-border pb-2 dark:border-dark-border'
-          {...fromBottom}
-        >
-          <button
-            type='button'
-            className='custom-button accent-tab accent-bg-tab flex cursor-not-allowed items-center gap-1 py-0
-                       px-3 text-main-accent hover:bg-main-accent/10 active:bg-main-accent/20'
-          >
-            <HeroIcon className='h-4 w-4' iconName='GlobeAmericasIcon' />
-            <p className='font-bold'>Everyone can reply</p>
-          </button>
-        </motion.div>
-      )}
     </div>
   );
 }

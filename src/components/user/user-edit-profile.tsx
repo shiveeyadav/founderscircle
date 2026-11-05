@@ -10,9 +10,16 @@ import { Modal } from '@components/modal/modal';
 import { EditProfileModal } from '@components/modal/edit-profile-modal';
 import { Button } from '@components/ui/button';
 import { InputField } from '@components/input/input-field';
+import { FounderFieldsEditor, getFounderData } from './founder-fields';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import type { FilesWithId } from '@lib/types/file';
-import type { User, EditableData, EditableUserData } from '@lib/types/user';
+import type {
+  User,
+  EditableData,
+  EditableUserData,
+  FounderData,
+  FounderTextData
+} from '@lib/types/user';
 import type { InputFieldProps } from '@components/input/input-field';
 
 type RequiredInputFieldProps = Omit<InputFieldProps, 'handleChange'> & {
@@ -28,6 +35,11 @@ type TrimmedTexts = Pick<
   EditableUserData,
   Exclude<EditableData, 'photoURL' | 'coverPhotoURL'>
 >;
+
+function trimOrNull(value: string | null): string | null {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : null;
+}
 
 type UserEditProfileProps = {
   hide?: boolean;
@@ -50,6 +62,10 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
     location,
     coverPhotoURL
   });
+
+  const [founderData, setFounderData] = useState<Required<FounderData>>(
+    getFounderData(user)
+  );
 
   const [userImages, setUserImages] = useState<UserImages>({
     photoURL: [],
@@ -100,9 +116,15 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
       ...newImages
     };
 
+    const newFounderData: Readonly<Required<FounderData>> = {
+      ...founderData,
+      company: trimOrNull(founderData.company),
+      canHelpWith: trimOrNull(founderData.canHelpWith)
+    };
+
     await sleep(500);
 
-    await updateUserData(userId, newUserData);
+    await updateUserData(userId, { ...newUserData, ...newFounderData });
 
     closeModal();
 
@@ -110,6 +132,7 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
 
     setLoading(false);
     setEditUserData(newUserData);
+    setFounderData(newFounderData);
 
     toast.success('Profile updated successfully');
   };
@@ -170,7 +193,7 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
     });
   };
 
-  const resetUserEditData = (): void =>
+  const resetUserEditData = (): void => {
     setEditUserData({
       bio,
       name,
@@ -179,6 +202,15 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
       location,
       coverPhotoURL
     });
+    setFounderData(getFounderData(user));
+  };
+
+  const handleFounderTextChange =
+    (key: FounderTextData) =>
+    ({
+      target: { value }
+    }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
+      setFounderData({ ...founderData, [key]: value });
 
   const handleChange =
     (key: EditableData) =>
@@ -254,6 +286,25 @@ export function UserEditProfile({ hide }: UserEditProfileProps): JSX.Element {
               key={inputData.inputId}
             />
           ))}
+          <h3 className='-mb-2 text-lg font-bold'>Founder profile</h3>
+          <InputField
+            label='Company'
+            inputId='company'
+            inputValue={founderData.company}
+            inputLimit={60}
+            handleChange={handleFounderTextChange('company')}
+            handleKeyboardShortcut={handleKeyboardShortcut}
+          />
+          <FounderFieldsEditor data={founderData} onChange={setFounderData} />
+          <InputField
+            label='Can help with'
+            inputId='canHelpWith'
+            inputValue={founderData.canHelpWith}
+            inputLimit={200}
+            useTextArea
+            handleChange={handleFounderTextChange('canHelpWith')}
+            handleKeyboardShortcut={handleKeyboardShortcut}
+          />
         </EditProfileModal>
       </Modal>
       <Button

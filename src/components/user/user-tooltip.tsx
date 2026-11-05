@@ -71,7 +71,7 @@ export function UserTooltip({
           <div className='flex flex-col gap-2'>
             <div className='-mx-4 -mt-4'>
               {coverPhotoURL ? (
-                <Link href={userLink}>
+                <Link href={userLink} legacyBehavior>
                   <a className='blur-picture'>
                     <NextImage
                       useSkeleton

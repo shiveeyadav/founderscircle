@@ -28,9 +28,9 @@ const navLinks: Readonly<NavLink[]> = [
     iconName: 'HomeIcon'
   },
   {
-    href: '/trends',
+    href: '/explore',
     linkName: 'Explore',
-    iconName: 'HashtagIcon',
+    iconName: 'MagnifyingGlassIcon',
     canBeHidden: true
   },
   {
@@ -46,7 +46,7 @@ const navLinks: Readonly<NavLink[]> = [
   },
   {
     href: '/people',
-    linkName: 'People',
+    linkName: 'Find founders',
     iconName: 'UserGroupIcon',
     canBeHidden: true
   }
@@ -59,14 +59,14 @@ const navLinks: Readonly<NavLink[]> = [
  */
 const publicNavLinks: Readonly<NavLink[]> = [
   {
-    href: '/trends',
+    href: '/explore',
     linkName: 'Explore',
-    iconName: 'HashtagIcon',
+    iconName: 'MagnifyingGlassIcon',
     canBeHidden: true
   },
   {
     href: '/people',
-    linkName: 'People',
+    linkName: 'Find founders',
     iconName: 'UserGroupIcon',
     canBeHidden: true
   }
@@ -101,7 +101,7 @@ export function Sidebar(): JSX.Element {
       >
         <section className='flex flex-col justify-center gap-2 xs:items-center xl:items-stretch'>
           <h1 className='hidden xs:flex'>
-            <Link href={user ? '/home' : '/'}>
+            <Link href={user ? '/home' : '/'} legacyBehavior>
               <a
                 className='custom-button main-tab transition hover:bg-light-primary/10
                            focus-visible:bg-accent-blue/10 focus-visible:!ring-accent-blue/80
@@ -129,7 +129,7 @@ export function Sidebar(): JSX.Element {
             {user && !isMobile && <MoreSettings />}
           </nav>
           {!user && (
-            <Link href='/'>
+            <Link href='/' legacyBehavior>
               <a
                 className='accent-tab absolute right-4 -translate-y-[72px] rounded-full bg-main-accent px-4 py-2
                            text-center text-lg font-bold text-white outline-none transition hover:brightness-90

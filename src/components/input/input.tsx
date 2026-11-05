@@ -24,6 +24,7 @@ import type { WithFieldValue } from 'firebase/firestore';
 import type { Variants } from 'framer-motion';
 import type { User } from '@lib/types/user';
 import type { Tweet } from '@lib/types/tweet';
+import type { PostCategory } from '@lib/founder';
 import type { FilesWithId, ImagesPreview, ImageData } from '@lib/types/file';
 
 type InputProps = {
@@ -55,8 +56,9 @@ export function Input({
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [visited, setVisited] = useState(false);
+  const [category, setCategory] = useState<PostCategory | null>(null);
 
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const { name, username, photoURL } = user as User;
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -91,7 +93,10 @@ export function Input({
       createdAt: serverTimestamp(),
       updatedAt: null,
       userReplies: 0,
-      userRetweets: []
+      userRetweets: [],
+      // replies inherit their thread's context, so only top-level posts
+      // carry a category
+      category: isReplying ? null : category
     };
 
     await sleep(500);
@@ -119,7 +124,7 @@ export function Input({
       () => (
         <span className='flex gap-2'>
           Your Post was sent
-          <Link href={`/tweet/${tweetId}`}>
+          <Link href={`/tweet/${tweetId}`} legacyBehavior>
             <a className='custom-underline font-bold'>View</a>
           </Link>
         </span>
@@ -179,6 +184,7 @@ export function Input({
   const discardTweet = (): void => {
     setInputValue('');
     setVisited(false);
+    setCategory(null);
     cleanImage();
 
     inputRef.current?.blur();
@@ -197,7 +203,9 @@ export function Input({
 
   const formId = useId();
 
-  const inputLimit = isAdmin ? 560 : 280;
+  // Matches isValidText() in firestore.rules. Longer than a tweet so hiring
+  // posts and feedback requests have room for detail.
+  const inputLimit = 560;
 
   const inputLength = inputValue.length;
   const isValidInput = !!inputValue.trim().length;
@@ -225,7 +233,7 @@ export function Input({
           {...fromTop}
         >
           Replying to{' '}
-          <Link href={`/user/${parent?.username as string}`}>
+          <Link href={`/user/${parent?.username as string}`} legacyBehavior>
             <a className='custom-underline text-main-accent'>
               {parent?.username as string}
             </a>
@@ -255,6 +263,7 @@ export function Input({
             inputRef={inputRef}
             replyModal={replyModal}
             inputValue={inputValue}
+            category={category}
             isValidTweet={isValidTweet}
             isUploadingImages={isUploadingImages}
             sendTweet={sendTweet}
@@ -262,6 +271,7 @@ export function Input({
             discardTweet={discardTweet}
             handleChange={handleChange}
             handleImageUpload={handleImageUpload}
+            handleCategory={setCategory}
           >
             {isUploadingImages && (
               <ImagePreview

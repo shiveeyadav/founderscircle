@@ -12,16 +12,18 @@ import { useAuth } from '@lib/context/auth-context';
 import { useCollection } from '@lib/hooks/useCollection';
 import { useDocument } from '@lib/hooks/useDocument';
 import { usersCollection } from '@lib/firebase/collections';
+import { featuredUserId } from '@lib/site';
 import { UserCard } from '@components/user/user-card';
 import { Loading } from '@components/ui/loading';
-import { variants } from './aside-trends';
+import { fadeIn } from '@components/ui/motion';
 
 export function Suggestions(): JSX.Element {
   const { randomSeed } = useAuth();
 
+  // Optional profile pinned to the top of the list (NEXT_PUBLIC_FEATURED_UID).
   const { data: adminData, loading: adminLoading } = useDocument(
-    doc(usersCollection, 'Twt0A27bx9YcG4vu3RTsR7ifJzf2'),
-    { allowNull: true }
+    doc(usersCollection, featuredUserId ?? 'none'),
+    { allowNull: true, disabled: !featuredUserId }
   );
 
   const { data: suggestionsData, loading: suggestionsLoading } = useCollection(
@@ -39,13 +41,13 @@ export function Suggestions(): JSX.Element {
       {adminLoading || suggestionsLoading ? (
         <Loading className='flex h-52 items-center justify-center p-4' />
       ) : suggestionsData ? (
-        <motion.div className='inner:px-4 inner:py-3' {...variants}>
+        <motion.div className='inner:px-4 inner:py-3' {...fadeIn}>
           <h2 className='text-xl font-bold'>Who to follow</h2>
           {adminData && <UserCard {...adminData} />}
           {suggestionsData?.map((userData) => (
             <UserCard {...userData} key={userData.id} />
           ))}
-          <Link href='/people'>
+          <Link href='/people' legacyBehavior>
             <a
               className='custom-button accent-tab hover-card block w-full rounded-2xl
                          rounded-t-none text-center text-main-accent'

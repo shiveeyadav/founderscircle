@@ -17,8 +17,8 @@ export function SiteFooter({ className }: SiteFooterProps): JSX.Element {
     >
       <nav className='flex flex-wrap justify-center gap-x-3 gap-y-1'>
         {footerLinks.map(({ href, label }) => (
-          <Link href={href} key={href}>
-            <a className='custom-underline'>{label}</a>
+          <Link className='custom-underline' href={href} key={href}>
+            {label}
           </Link>
         ))}
       </nav>

@@ -49,7 +49,7 @@ export function NotificationCard({
       : `/tweet/${(type === 'reply' ? tweetId : tweetId ?? parentTweetId) ?? ''}`;
 
   return (
-    <Link href={href}>
+    <Link href={href} legacyBehavior>
       <a
         className={cn(
           `accent-tab hover-animation flex gap-3 border-b border-light-border

@@ -16,6 +16,7 @@ import { TweetStatus } from './tweet-status';
 import { TweetStats } from './tweet-stats';
 import { TweetDate } from './tweet-date';
 import { TweetText } from './tweet-text';
+import { CategoryLabel } from './category-label';
 import type { Variants } from 'framer-motion';
 import type { Tweet } from '@lib/types/tweet';
 import type { User } from '@lib/types/user';
@@ -49,6 +50,7 @@ export function Tweet(tweet: TweetProps): JSX.Element {
     parentTweet,
     userReplies,
     userRetweets,
+    category,
     user: tweetUserData
   } = tweet;
 
@@ -91,7 +93,7 @@ export function Tweet(tweet: TweetProps): JSX.Element {
       >
         <TweetReplyModal tweet={tweet} closeModal={closeModal} />
       </Modal>
-      <Link href={tweetLink} scroll={!reply}>
+      <Link href={tweetLink} scroll={!reply} legacyBehavior>
         <a
           className={cn(
             `accent-tab hover-card relative flex flex-col 
@@ -112,7 +114,7 @@ export function Tweet(tweet: TweetProps): JSX.Element {
               ) : (
                 tweetIsRetweeted && (
                   <TweetStatus type='tweet'>
-                    <Link href={profileUsername as string}>
+                    <Link href={profileUsername as string} legacyBehavior>
                       <a className='custom-underline truncate text-sm font-bold'>
                         {userId === profileId ? 'You' : profileName} Reposted
                       </a>
@@ -167,13 +169,14 @@ export function Tweet(tweet: TweetProps): JSX.Element {
                   )}
                 >
                   Replying to{' '}
-                  <Link href={`/user/${parentUsername}`}>
+                  <Link href={`/user/${parentUsername}`} legacyBehavior>
                     <a className='custom-underline text-main-accent'>
                       @{parentUsername}
                     </a>
                   </Link>
                 </p>
               )}
+              {!reply && <CategoryLabel category={category} />}
               {text && <TweetText text={text} />}
               <div className='mt-1 flex flex-col gap-2'>
                 {images && (

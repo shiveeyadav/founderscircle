@@ -20,9 +20,9 @@ export type MobileNavLink = Omit<NavLink, 'canBeHidden'>;
 
 const topNavLinks: Readonly<MobileNavLink[]> = [
   {
-    href: '/trends',
-    linkName: 'Topics',
-    iconName: 'ChatBubbleBottomCenterTextIcon'
+    href: '/explore',
+    linkName: 'Explore',
+    iconName: 'MagnifyingGlassIcon'
   },
   {
     href: '/bookmarks',
@@ -41,9 +41,18 @@ const topNavLinks: Readonly<MobileNavLink[]> = [
   }
 ];
 
-// Settings and Help center are intentionally absent until those pages exist —
-// an inert nav entry reads as a broken app.
-const bottomNavLinks: Readonly<MobileNavLink[]> = [];
+const bottomNavLinks: Readonly<MobileNavLink[]> = [
+  {
+    href: '/welcome',
+    linkName: 'Welcome',
+    iconName: 'RocketLaunchIcon'
+  },
+  {
+    href: '/guidelines',
+    linkName: 'Community guidelines',
+    iconName: 'ShieldCheckIcon'
+  }
+];
 
 type Stats = [string, string, number];
 
@@ -125,7 +134,7 @@ export function MobileSidebarModal({
         action={closeModal}
       />
       <section className='mt-0.5 flex flex-col gap-2 px-4'>
-        <Link href={userLink}>
+        <Link href={userLink} legacyBehavior>
           <a className='blur-picture relative h-20 rounded-md'>
             {coverPhotoURL ? (
               <NextImage

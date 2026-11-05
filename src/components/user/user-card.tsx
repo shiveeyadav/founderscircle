@@ -5,6 +5,7 @@ import { UserTooltip } from './user-tooltip';
 import { UserName } from './user-name';
 import { UserFollowing } from './user-following';
 import { UserUsername } from './user-username';
+import { FounderDetails } from './founder-fields';
 import type { User } from '@lib/types/user';
 
 type UserCardProps = User & {
@@ -16,7 +17,7 @@ export function UserCard(user: UserCardProps): JSX.Element {
   const { id, bio, name, modal, follow, username, verified, photoURL } = user;
 
   return (
-    <Link href={`/user/${username}`}>
+    <Link href={`/user/${username}`} legacyBehavior>
       <a
         className='accent-tab hover-animation grid grid-cols-[auto,1fr] gap-3 px-4
                    py-3 hover:bg-light-primary/5 dark:hover:bg-dark-primary/5'
@@ -44,6 +45,16 @@ export function UserCard(user: UserCardProps): JSX.Element {
             </div>
             <FollowButton userTargetId={id} userTargetUsername={username} />
           </div>
+          {follow && (
+            <FounderDetails
+              compact
+              company={user.company}
+              role={user.role}
+              industry={user.industry}
+              stage={user.stage}
+              lookingFor={user.lookingFor}
+            />
+          )}
           {follow && bio && <p className='whitespace-normal'>{bio}</p>}
         </div>
       </a>

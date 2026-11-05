@@ -4,8 +4,9 @@ import { ToolTip } from '@components/ui/tooltip';
 import { UserName } from './user-name';
 import { UserFollowing } from './user-following';
 import { UserFollowStats } from './user-follow-stats';
+import { FounderDetails } from './founder-fields';
 import type { IconName } from '@components/ui/hero-icon';
-import type { User } from '@lib/types/user';
+import type { User, FounderData } from '@lib/types/user';
 
 type UserDetailsProps = Pick<
   User,
@@ -19,7 +20,8 @@ type UserDetailsProps = Pick<
   | 'createdAt'
   | 'following'
   | 'followers'
->;
+> &
+  FounderData;
 
 type DetailIcon = [string | null, IconName];
 
@@ -33,7 +35,13 @@ export function UserDetails({
   verified,
   createdAt,
   following,
-  followers
+  followers,
+  company,
+  role,
+  industry,
+  stage,
+  lookingFor,
+  canHelpWith
 }: UserDetailsProps): JSX.Element {
   const detailIcons: Readonly<DetailIcon[]> = [
     [location, 'MapPinIcon'],
@@ -56,6 +64,14 @@ export function UserDetails({
         </div>
       </div>
       <div className='flex flex-col gap-2'>
+        <FounderDetails
+          company={company}
+          role={role}
+          industry={industry}
+          stage={stage}
+          lookingFor={lookingFor}
+          canHelpWith={canHelpWith}
+        />
         {bio && <p className='whitespace-pre-line break-words'>{bio}</p>}
         <div className='flex flex-wrap gap-x-3 gap-y-1 text-light-secondary dark:text-dark-secondary'>
           {detailIcons.map(

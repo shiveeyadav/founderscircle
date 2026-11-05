@@ -15,6 +15,7 @@ import { TweetActions } from '@components/tweet/tweet-actions';
 import { TweetStats } from '@components/tweet/tweet-stats';
 import { TweetDate } from '@components/tweet/tweet-date';
 import { Input } from '@components/input/input';
+import { CategoryLabel } from '@components/tweet/category-label';
 import type { RefObject } from 'react';
 import type { User } from '@lib/types/user';
 import type { Tweet } from '@lib/types/tweet';
@@ -35,6 +36,7 @@ export function ViewTweet(tweet: ViewTweetProps): JSX.Element {
     createdAt,
     userRetweets,
     userReplies,
+    category,
     viewTweetRef,
     user: tweetUserData
   } = tweet;
@@ -119,7 +121,7 @@ export function ViewTweet(tweet: ViewTweetProps): JSX.Element {
       {reply && (
         <p className='text-light-secondary dark:text-dark-secondary'>
           Replying to{' '}
-          <Link href={`/user/${parentUsername}`}>
+          <Link href={`/user/${parentUsername}`} legacyBehavior>
             <a className='custom-underline text-main-accent'>
               @{parentUsername}
             </a>
@@ -127,6 +129,11 @@ export function ViewTweet(tweet: ViewTweetProps): JSX.Element {
         </p>
       )}
       <div>
+        {!reply && (
+          <div className='mb-2'>
+            <CategoryLabel category={category} link />
+          </div>
+        )}
         {text && (
           <p className='whitespace-pre-line break-words text-2xl'>{text}</p>
         )}
