@@ -17,6 +17,7 @@ import {
   manageTotalPhotos
 } from '@lib/firebase/utils';
 import { delayScroll, preventBubbling, sleep } from '@lib/utils';
+import { siteName } from '@lib/site';
 import { Modal } from '@components/modal/modal';
 import { ActionModal } from '@components/modal/action-modal';
 import { Button } from '@components/ui/button';
@@ -161,7 +162,7 @@ export function TweetActions({
             isInAdminControl ? `@${username}'s` : 'your'
           } profile, the timeline of any accounts that follow ${
             isInAdminControl ? `@${username}` : 'you'
-          }, and from The Alternative search results.`}
+          }, and from ${siteName} search results.`}
           mainBtnClassName='bg-accent-red hover:bg-accent-red/90 active:bg-accent-red/75 accent-tab
                             focus-visible:bg-accent-red/90'
           mainBtnLabel='Delete'

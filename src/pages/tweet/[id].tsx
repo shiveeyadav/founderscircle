@@ -6,6 +6,7 @@ import { tweetsCollection } from '@lib/firebase/collections';
 import { useCollection } from '@lib/hooks/useCollection';
 import { useDocument } from '@lib/hooks/useDocument';
 import { isPlural } from '@lib/utils';
+import { siteName, pageTitle } from '@lib/site';
 import { HomeLayout, PublicLayout } from '@components/layout/common-layout';
 import { MainLayout } from '@components/layout/main-layout';
 import { MainContainer } from '@components/home/main-container';
@@ -111,10 +112,10 @@ export default function TweetId({
   const imagesLength = images?.length ?? 0;
   const parentId = tweetData?.parent?.id;
 
-  const pageTitle = tweetData
-    ? `${tweetData.user.name} on The Alternative: "${text ?? ''}${
+  const tweetTitle = tweetData
+    ? `${tweetData.user.name} on ${siteName}: "${text ?? ''}${
         images ? ` (${imagesLength} image${isPlural(imagesLength)})` : ''
-      }" / The Alternative`
+      }" / ${siteName}`
     : null;
 
   return (
@@ -123,9 +124,9 @@ export default function TweetId({
           immediately rather than waiting on a client-side Firestore read. */}
       {preview && (
         <SEO
-          title={`${preview.authorName} on The Alternative: "${
+          title={`${preview.authorName} on ${siteName}: "${
             preview.text ?? ''
-          }" / The Alternative`}
+          }" / ${siteName}`}
           description={preview.text ?? `A post by @${preview.authorUsername}`}
           image={preview.image ?? undefined}
         />
@@ -140,12 +141,12 @@ export default function TweetId({
           <Loading className='mt-5' />
         ) : !tweetData ? (
           <>
-            {!preview && <SEO title='Post not found / The Alternative' />}
+            {!preview && <SEO title={pageTitle('Post not found')} />}
             <Error message='Post not found' />
           </>
         ) : (
           <>
-            {!preview && pageTitle && <SEO title={pageTitle} />}
+            {!preview && tweetTitle && <SEO title={tweetTitle} />}
             {parentId && (
               <ViewParentTweet
                 parentId={parentId}

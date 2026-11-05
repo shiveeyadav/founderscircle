@@ -7,6 +7,7 @@ import { useModal } from '@lib/hooks/useModal';
 import { useCollection } from '@lib/hooks/useCollection';
 import { useArrayDocument } from '@lib/hooks/useArrayDocument';
 import { usePushNotifications } from '@lib/hooks/usePushNotifications';
+import { pageTitle } from '@lib/site';
 import {
   markNotificationsAsRead,
   clearAllNotifications
@@ -106,7 +107,7 @@ export default function Notifications(): JSX.Element {
 
   return (
     <MainContainer>
-      <SEO title='Notifications / The Alternative' />
+      <SEO title={pageTitle('Notifications')} />
       <Modal
         modalClassName='max-w-xs bg-main-background w-full p-8 rounded-2xl'
         open={open}

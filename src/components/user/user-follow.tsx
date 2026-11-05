@@ -2,6 +2,7 @@ import { query, where } from 'firebase/firestore';
 import { useUser } from '@lib/context/user-context';
 import { useCollection } from '@lib/hooks/useCollection';
 import { usersCollection } from '@lib/firebase/collections';
+import { siteName } from '@lib/site';
 import { SEO } from '@components/common/seo';
 import { UserCards } from '@components/user/user-cards';
 import type { User } from '@lib/types/user';
@@ -31,7 +32,7 @@ export function UserFollow({ type }: UserFollowProps): JSX.Element {
       <SEO
         title={`People ${
           type === 'following' ? 'followed by' : 'following'
-        } ${name} (@${username}) / The Alternative`}
+        } ${name} (@${username}) / ${siteName}`}
       />
       <UserCards follow data={data} type={type} loading={loading} />
     </>

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import cn from 'clsx';
+import { siteName } from '@lib/site';
 import { HeroIcon } from '@components/ui/hero-icon';
 import { Button } from '@components/ui/button';
 import type { ChangeEvent, FormEvent, KeyboardEvent } from 'react';
@@ -53,7 +54,7 @@ export function SearchBar(): JSX.Element {
           className='peer flex-1 bg-transparent outline-none 
                      placeholder:text-light-secondary dark:placeholder:text-dark-secondary'
           type='text'
-          placeholder='Search The Alternative'
+          placeholder={`Search ${siteName}`}
           ref={inputRef}
           value={inputValue}
           onChange={handleChange}

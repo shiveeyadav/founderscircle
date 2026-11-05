@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useAuth } from '@lib/context/auth-context';
 import { useWindow } from '@lib/context/window-context';
 import { useModal } from '@lib/hooks/useModal';
+import { siteName } from '@lib/site';
 import { Modal } from '@components/modal/modal';
 import { Input } from '@components/input/input';
 import { CustomIcon } from '@components/ui/custom-icon';
@@ -102,11 +103,12 @@ export function Sidebar(): JSX.Element {
           <h1 className='hidden xs:flex'>
             <Link href={user ? '/home' : '/'}>
               <a
-                className='custom-button main-tab text-accent-blue transition hover:bg-light-primary/10 
+                className='custom-button main-tab transition hover:bg-light-primary/10
                            focus-visible:bg-accent-blue/10 focus-visible:!ring-accent-blue/80
-                           dark:text-twitter-icon dark:hover:bg-dark-primary/10'
+                           dark:hover:bg-dark-primary/10'
+                aria-label={siteName}
               >
-                <CustomIcon className='h-7 w-7' iconName='TwitterIcon' />
+                <CustomIcon className='h-8 w-8' iconName='LogoIcon' />
               </a>
             </Link>
           </h1>

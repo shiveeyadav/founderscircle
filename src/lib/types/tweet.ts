@@ -1,6 +1,7 @@
 import type { Timestamp, FirestoreDataConverter } from 'firebase/firestore';
 import type { ImagesPreview } from './file';
 import type { User } from './user';
+import type { PostCategory } from '@lib/founder';
 
 export type Tweet = {
   id: string;
@@ -13,6 +14,8 @@ export type Tweet = {
   updatedAt: Timestamp | null;
   userReplies: number;
   userRetweets: string[];
+  /** Absent on posts created before categories existed. */
+  category?: PostCategory | null;
 };
 
 export type TweetWithUser = Tweet & { user: User };

@@ -7,6 +7,7 @@ import { useModal } from '@lib/hooks/useModal';
 import { useCollection } from '@lib/hooks/useCollection';
 import { useArrayDocument } from '@lib/hooks/useArrayDocument';
 import { clearAllBookmarks } from '@lib/firebase/utils';
+import { pageTitle } from '@lib/site';
 import {
   tweetsCollection,
   userBookmarksCollection
@@ -57,7 +58,7 @@ export default function Bookmarks(): JSX.Element {
 
   return (
     <MainContainer>
-      <SEO title='Bookmarks / The Alternative' />
+      <SEO title={pageTitle('Bookmarks')} />
       <Modal
         modalClassName='max-w-xs bg-main-background w-full p-8 rounded-2xl'
         open={open}
@@ -98,9 +99,8 @@ export default function Bookmarks(): JSX.Element {
           <Loading className='mt-5' />
         ) : !bookmarksRef ? (
           <StatsEmpty
-            title='Save Tweets for later'
-            description='Don’t let the good ones fly away! Bookmark Tweets to easily find them again in the future.'
-            imageData={{ src: '/assets/no-bookmarks.png', alt: 'No bookmarks' }}
+            title='Save posts for later'
+            description='Bookmark useful advice, intros and job posts so you can find them again.'
           />
         ) : (
           <AnimatePresence mode='popLayout'>

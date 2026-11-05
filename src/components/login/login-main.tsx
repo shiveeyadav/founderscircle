@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { useAuth } from '@lib/context/auth-context';
-import { NextImage } from '@components/ui/next-image';
+import { siteName, siteDescription } from '@lib/site';
 import { CustomIcon } from '@components/ui/custom-icon';
+import { HeroIcon } from '@components/ui/hero-icon';
 import { Button } from '@components/ui/button';
 import { EmailAuthModal } from '@components/modal/email-auth-modal';
 
 type ModalMode = 'signup' | 'signin';
+
+const highlights: Readonly<string[]> = [
+  'Ask founders who have been there before',
+  'Share wins and get honest feedback',
+  'Find a co-founder, investors, mentors or your next hire'
+];
 
 export function LoginMain(): JSX.Element {
   const { signInWithGoogle } = useAuth();
@@ -26,34 +33,37 @@ export function LoginMain(): JSX.Element {
       closeModal={() => setModalOpen(false)}
     />
     <main className='grid lg:grid-cols-[1fr,45vw]'>
-      <div className='relative hidden items-center justify-center  lg:flex'>
-        <NextImage
-          imgClassName='object-cover'
-          blurClassName='bg-accent-blue'
-          src='/assets/twitter-banner.png'
-          alt='The Alternative banner'
-          layout='fill'
-          useSkeleton
+      <div
+        className='relative hidden flex-col justify-center gap-8 overflow-hidden bg-gradient-to-br
+                   from-[#1E1B4B] to-[#4F46E5] p-16 text-white lg:flex'
+      >
+        <i
+          className='absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full border-[40px]
+                     border-indigo-400/30'
         />
-        <i className='absolute'>
-          <CustomIcon className='h-96 w-96 text-white' iconName='TwitterIcon' />
-        </i>
+        <CustomIcon className='h-24 w-24' iconName='LogoIcon' />
+        <ul className='relative flex max-w-md flex-col gap-4 text-xl'>
+          {highlights.map((text) => (
+            <li className='flex gap-3' key={text}>
+              <HeroIcon
+                className='h-7 w-7 shrink-0 text-indigo-200'
+                iconName='CheckCircleIcon'
+              />
+              {text}
+            </li>
+          ))}
+        </ul>
       </div>
       <div className='flex flex-col items-center justify-between gap-6 p-8 lg:items-start lg:justify-center'>
         <i className='mb-0 self-center lg:mb-10 lg:self-auto'>
-          <CustomIcon
-            className='-mt-4 h-6 w-6 text-accent-blue lg:h-12 lg:w-12 dark:lg:text-twitter-icon'
-            iconName='TwitterIcon'
-          />
+          <CustomIcon className='h-10 w-10 lg:h-14 lg:w-14' iconName='LogoIcon' />
         </i>
-        <div className='flex max-w-xs flex-col gap-4 font-twitter-chirp-extended lg:max-w-none lg:gap-16'>
-          <h1
-            className='text-3xl before:content-["See_what’s_happening_in_the_world_right_now."] 
-                       lg:text-6xl lg:before:content-["Happening_now"]'
-          />
-          <h2 className='hidden text-xl lg:block lg:text-3xl'>
-            Join The Alternative today.
-          </h2>
+        <div className='flex max-w-xs flex-col gap-4 font-extrabold lg:max-w-none lg:gap-12'>
+          <h1 className='text-3xl lg:text-6xl'>Build with people who get it.</h1>
+          <h2 className='text-xl lg:text-3xl'>Join {siteName} today.</h2>
+          <p className='max-w-md text-base font-normal text-light-secondary dark:text-dark-secondary'>
+            {siteDescription}
+          </p>
         </div>
         <div className='flex max-w-xs flex-col gap-6 [&_button]:py-2'>
           <div className='grid gap-3 font-bold'>

@@ -4,6 +4,7 @@ import { useCollection } from '@lib/hooks/useCollection';
 import { tweetsCollection } from '@lib/firebase/collections';
 import { useUser } from '@lib/context/user-context';
 import { mergeData } from '@lib/merge';
+import { siteName } from '@lib/site';
 import { UserLayout, PublicLayout } from '@components/layout/common-layout';
 import { MainLayout } from '@components/layout/main-layout';
 import { SEO } from '@components/common/seo';
@@ -35,15 +36,14 @@ export default function UserMedia(): JSX.Element {
       <SEO
         title={`Media Tweets by ${name as string} (@${
           username as string
-        }) / The Alternative`}
+        }) / ${siteName}`}
       />
       {loading ? (
         <Loading className='mt-5' />
       ) : !sortedTweets ? (
         <StatsEmpty
-          title={`@${username as string} hasn't Tweeted Media`}
-          description='Once they do, those Tweets will show up here.'
-          imageData={{ src: '/assets/no-media.png', alt: 'No media' }}
+          title={`@${username as string} hasn't posted media`}
+          description='Once they do, those posts will show up here.'
         />
       ) : (
         <AnimatePresence mode='popLayout'>

@@ -5,6 +5,7 @@ import { useCollection } from '@lib/hooks/useCollection';
 import { useDocument } from '@lib/hooks/useDocument';
 import { tweetsCollection } from '@lib/firebase/collections';
 import { mergeData } from '@lib/merge';
+import { siteName, pageTitle } from '@lib/site';
 import { UserLayout, PublicLayout } from '@components/layout/common-layout';
 import { MainLayout } from '@components/layout/main-layout';
 import { UserDataLayout } from '@components/layout/user-data-layout';
@@ -149,10 +150,10 @@ UserTweets.getLayout = (page: ReactElement): ReactNode => {
     <PublicLayout>
       {preview && (
         <SEO
-          title={`${preview.name} (@${preview.username}) / The Alternative`}
+          title={pageTitle(`${preview.name} (@${preview.username})`)}
           description={
             preview.bio ??
-            `${preview.name} (@${preview.username}) on The Alternative.`
+            `${preview.name} (@${preview.username}) on ${siteName}.`
           }
           image={preview.photoURL ?? undefined}
         />

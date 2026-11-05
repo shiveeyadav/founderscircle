@@ -4,16 +4,30 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
   darkMode: 'class',
-  content: ['src/pages/**/*.tsx', 'src/components/**/*.tsx'],
+  content: [
+    'src/pages/**/*.tsx',
+    'src/components/**/*.tsx',
+    'src/lib/**/*.ts'
+  ],
   theme: {
     screens: {
       xs: '500px',
       ...defaultTheme.screens
     },
     extend: {
+      // System font stack only — no bundled web fonts.
       fontFamily: {
-        'twitter-chirp': ['TwitterChirp', 'sans-serif'],
-        'twitter-chirp-extended': ['TwitterChirpExtendedHeavy', 'sans-serif']
+        sans: [
+          'system-ui',
+          '-apple-system',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif',
+          'Apple Color Emoji',
+          'Segoe UI Emoji'
+        ]
       },
       // prettier-ignore
       colors: {
@@ -38,7 +52,6 @@ module.exports = {
         'light-border': '#EFF3F4',
         'dark-line-reply': '#333639',
         'light-line-reply': '#CFD9DE',
-        'twitter-icon': '#D6D9DB',
         'image-preview-hover': '#272C30',
       }
     }

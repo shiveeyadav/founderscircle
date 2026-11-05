@@ -24,7 +24,7 @@ const nextConfig = {
               "img-src 'self' data: blob: https: http:",
               "media-src 'self' blob: https:",
               "frame-src https://www.youtube.com https://youtube.com https://*.firebaseapp.com",
-              "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com wss://*.firebaseio.com https://api.twitter.com https://www.youtube.com",
+              "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com wss://*.firebaseio.com https://www.youtube.com",
               "font-src 'self'",
               "object-src 'none'",
               "base-uri 'self'"

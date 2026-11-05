@@ -3,6 +3,7 @@ import { where, orderBy } from 'firebase/firestore';
 import { useWindow } from '@lib/context/window-context';
 import { useInfiniteScroll } from '@lib/hooks/useInfiniteScroll';
 import { tweetsCollection } from '@lib/firebase/collections';
+import { pageTitle } from '@lib/site';
 import { HomeLayout, ProtectedLayout } from '@components/layout/common-layout';
 import { MainLayout } from '@components/layout/main-layout';
 import { SEO } from '@components/common/seo';
@@ -26,7 +27,7 @@ export default function Home(): JSX.Element {
 
   return (
     <MainContainer>
-      <SEO title='Home / The Alternative' />
+      <SEO title={pageTitle('Home')} />
       <MainHeader
         useMobileSidebar
         title='Home'

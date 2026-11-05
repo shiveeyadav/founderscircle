@@ -4,6 +4,7 @@ import { useCollection } from '@lib/hooks/useCollection';
 import { useDocument } from '@lib/hooks/useDocument';
 import { tweetsCollection } from '@lib/firebase/collections';
 import { useUser } from '@lib/context/user-context';
+import { siteName } from '@lib/site';
 import { UserLayout, PublicLayout } from '@components/layout/common-layout';
 import { MainLayout } from '@components/layout/main-layout';
 import { SEO } from '@components/common/seo';
@@ -43,7 +44,7 @@ export default function UserWithReplies(): JSX.Element {
       <SEO
         title={`Tweets with replies by ${name as string} (@${
           username as string
-        }) / The Alternative`}
+        }) / ${siteName}`}
       />
       {loading ? (
         <Loading className='mt-5' />

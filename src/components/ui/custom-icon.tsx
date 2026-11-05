@@ -1,4 +1,5 @@
 import cn from 'clsx';
+import { siteName } from '@lib/site';
 
 type IconName = keyof typeof Icons;
 
@@ -15,7 +16,7 @@ const Icons = {
   AppleIcon,
   PinOffIcon,
   GoogleIcon,
-  TwitterIcon,
+  LogoIcon,
   FeatherIcon,
   SpinnerIcon,
   TriangleIcon
@@ -30,17 +31,33 @@ export function CustomIcon({
   return <Icon className={className ?? 'h-6 w-6'} />;
 }
 
-function TwitterIcon({ className }: IconProps): JSX.Element {
+/** The FoundersCircle mark — always drawn in brand colours. */
+function LogoIcon({ className }: IconProps): JSX.Element {
   return (
     <svg
-      className={cn('fill-current', className)}
-      viewBox='0 0 24 24'
-      aria-label='The Alternative'
+      className={className}
+      viewBox='0 0 64 64'
+      role='img'
+      aria-label={siteName}
     >
-      <path
-        fillRule='evenodd'
-        d='M12 2L1 22h5.5l1.7-4h7.6l1.7 4H23L12 2zm0 5.5 2.6 7.5H9.4L12 7.5z'
+      <rect width='64' height='64' rx='14' fill='#4F46E5' />
+      <circle
+        cx='32'
+        cy='32'
+        r='19'
+        fill='none'
+        stroke='#fff'
+        strokeWidth='5'
       />
+      <circle
+        cx='45.4'
+        cy='18.6'
+        r='6'
+        fill='#A5B4FC'
+        stroke='#4F46E5'
+        strokeWidth='3'
+      />
+      <path fill='#fff' d='M26 22h13v5h-8v4h7v5h-7v8h-5z' />
     </svg>
   );
 }

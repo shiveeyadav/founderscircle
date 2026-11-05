@@ -1,9 +1,8 @@
 import { createTransport } from 'nodemailer';
 import { createHmac } from 'crypto';
 import { adminAuth, adminDb, isAdminConfigured } from '@lib/firebase/admin';
+import { siteURL, siteName, brandColor } from '@lib/site';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-const siteURL = process.env.NEXT_PUBLIC_URL ?? 'https://thealternative.social';
 
 /**
  * Applied to accounts that have never chosen a frequency.
@@ -59,8 +58,8 @@ function renderEmail(
 
   const subject =
     posts.length === 1
-      ? `1 new post on The Alternative ${period}`
-      : `${posts.length} new posts on The Alternative ${period}`;
+      ? `1 new post on ${siteName} ${period}`
+      : `${posts.length} new posts on ${siteName} ${period}`;
 
   const items = posts
     .map(({ id, text, imageCount, authorName, authorUsername }) => {
@@ -81,7 +80,7 @@ function renderEmail(
             authorUsername
           )}</span></div>
         <div style="margin:4px 0 8px;color:#14171a;line-height:1.5">${body}${images}</div>
-        <a href="${siteURL}/tweet/${id}" style="color:#1da1f2;text-decoration:none">Read post →</a>
+        <a href="${siteURL}/tweet/${id}" style="color:${brandColor};text-decoration:none">Read post →</a>
       </td></tr>`;
     })
     .join('');
@@ -89,22 +88,22 @@ function renderEmail(
   const html = `<div style="margin:0;padding:24px;background:#f5f8fa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
     <table role="presentation" style="max-width:560px;margin:0 auto;background:#fff;border-radius:12px;padding:24px" width="100%">
       <tr><td>
-        <h1 style="margin:0 0 4px;font-size:20px;color:#14171a">The Alternative</h1>
+        <h1 style="margin:0 0 4px;font-size:20px;color:#14171a">${siteName}</h1>
         <p style="margin:0 0 16px;color:#687684;font-size:14px">Here's what you missed ${period}.</p>
       </td></tr>
       ${items}
       <tr><td style="padding-top:20px">
-        <a href="${siteURL}/home" style="display:inline-block;background:#1da1f2;color:#fff;padding:10px 20px;border-radius:9999px;text-decoration:none;font-weight:600">Open The Alternative</a>
+        <a href="${siteURL}/home" style="display:inline-block;background:${brandColor};color:#fff;padding:10px 20px;border-radius:9999px;text-decoration:none;font-weight:600">Open ${siteName}</a>
       </td></tr>
       <tr><td style="padding-top:24px;color:#687684;font-size:12px;line-height:1.5">
-        You asked to receive these round-ups from The Alternative.<br>
+        You asked to receive these round-ups from ${siteName}.<br>
         <a href="${unsubUrl}" style="color:#687684">Unsubscribe from these emails</a>
         ${postalAddress ? `<br><br>${escapeHtml(postalAddress)}` : ''}
       </td></tr>
     </table></div>`;
 
   const text = [
-    `Here's what you missed ${period} on The Alternative.`,
+    `Here's what you missed ${period} on ${siteName}.`,
     '',
     ...posts.map(
       ({ id, text: body, authorName, authorUsername }) =>
@@ -147,8 +146,8 @@ export default async function handler(
     return;
   }
 
-  // Render blocks outbound SMTP ports on its instances, so an SMTP transport
-  // just hangs there. A Resend key (re_...) is therefore sent over their HTTPS
+  // Some hosts block outbound SMTP ports, so an SMTP transport just hangs
+  // there. A Resend key (re_...) is therefore sent over their HTTPS
   // API instead; SMTP stays available for hosts that permit it.
   const useResendApi = pass.startsWith('re_');
 
@@ -159,7 +158,7 @@ export default async function handler(
     ? { host, port, secure: port === 465, auth: { user, pass } }
     : { service: 'Gmail', auth: { user, pass } };
 
-  const fromName = process.env.EMAIL_FROM_NAME ?? 'The Alternative';
+  const fromName = process.env.EMAIL_FROM_NAME ?? siteName;
 
   // With a relay like Resend the SMTP username is not an address ("resend"),
   // so the visible sender is configured separately.

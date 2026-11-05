@@ -62,7 +62,7 @@ export function NotificationCard({
         </i>
         <div className='flex flex-col gap-1'>
           <UserAvatar
-            src={user?.photoURL ?? '/assets/twitter-avatar.jpg'}
+            src={user?.photoURL ?? '/assets/default-avatar.svg'}
             alt={user?.name ?? 'User'}
             size={32}
           />

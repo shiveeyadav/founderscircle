@@ -1,3 +1,4 @@
+import { siteName, siteHandle } from '@lib/site';
 import { UserAvatar } from '@components/user/user-avatar';
 import { UserName } from '@components/user/user-name';
 import { InputThemeRadio } from '@components/input/input-theme-radio';
@@ -30,7 +31,7 @@ export function DisplayModal({ closeModal }: DisplayModalProps): JSX.Element {
       <div className='flex flex-col gap-3 text-center'>
         <h2 className='text-2xl font-bold'>Customize your view</h2>
         <p className='text-light-secondary dark:text-dark-secondary'>
-          These settings affect all The Alternative accounts on this browser.
+          These settings affect all {siteName} accounts on this browser.
         </p>
       </div>
       <article
@@ -38,12 +39,12 @@ export function DisplayModal({ closeModal }: DisplayModalProps): JSX.Element {
                    border-light-border px-4 py-3 dark:border-dark-border'
       >
         <div className='grid grid-cols-[auto,1fr] gap-3'>
-          <UserAvatar src='/assets/twitter-avatar.jpg' alt='The Alternative' />
+          <UserAvatar src='/logo.svg' alt={siteName} />
           <div>
             <div className='flex gap-1'>
-              <UserName verified name='The Alternative' />
+              <UserName verified name={siteName} />
               <p className='text-light-secondary dark:text-dark-secondary'>
-                @thealternative
+                @{siteHandle}
               </p>
               <div className='flex gap-1 text-light-secondary dark:text-dark-secondary'>
                 <i>·</i>
@@ -51,10 +52,10 @@ export function DisplayModal({ closeModal }: DisplayModalProps): JSX.Element {
               </div>
             </div>
             <p className='whitespace-pre-line break-words'>
-              At the heart of The Alternative are short messages called Posts —
-              just like this one — which can include photos, videos, links,
-              text, hashtags, and mentions like{' '}
-              <span className='text-main-accent'>@thealternative</span>.
+              Shipped our first paid plan today after 14 months of building.
+              Thanks to everyone here who reviewed the pricing page — tag a
+              founder who helped you, like{' '}
+              <span className='text-main-accent'>@{siteHandle}</span>.
             </p>
           </div>
         </div>

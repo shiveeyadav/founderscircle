@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { useAuth } from '@lib/context/auth-context';
 import { useUser } from '@lib/context/user-context';
+import { pageTitle } from '@lib/site';
 import { SEO } from '@components/common/seo';
 import { UserHomeCover } from '@components/user/user-home-cover';
 import { UserHomeAvatar } from '@components/user/user-home-avatar';
@@ -41,7 +42,7 @@ export function UserHomeLayout({ children }: LayoutProps): JSX.Element {
     <>
       {userData && (
         <SEO
-          title={`${`${userData.name} (@${userData.username})`} / The Alternative`}
+          title={pageTitle(`${userData.name} (@${userData.username})`)}
         />
       )}
       <motion.section {...variants} exit={undefined}>

@@ -4,6 +4,7 @@ import { where } from 'firebase/firestore';
 import { useAuth } from '@lib/context/auth-context';
 import { usersCollection } from '@lib/firebase/collections';
 import { useInfiniteScroll } from '@lib/hooks/useInfiniteScroll';
+import { pageTitle } from '@lib/site';
 import {
   PeopleLayout,
   PublicLayout
@@ -32,7 +33,7 @@ export default function People(): JSX.Element {
 
   return (
     <MainContainer>
-      <SEO title='People / The Alternative' />
+      <SEO title={pageTitle('People')} />
       <MainHeader useActionButton title='People' action={back} />
       <section>
         {loading ? (

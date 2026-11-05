@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useAuth } from '@lib/context/auth-context';
 import { useModal } from '@lib/hooks/useModal';
+import { siteName } from '@lib/site';
 import { Button } from '@components/ui/button';
 import { UserAvatar } from '@components/user/user-avatar';
 import { NextImage } from '@components/ui/next-image';
@@ -35,7 +36,7 @@ const topNavLinks: Readonly<MobileNavLink[]> = [
   },
   {
     href: '/people',
-    linkName: 'The Alternative Circle',
+    linkName: 'Find founders',
     iconName: 'UserGroupIcon'
   }
 ];
@@ -108,7 +109,7 @@ export function MobileSidebarModal({
         <ActionModal
           useIcon
           focusOnMainBtn
-          title='Log out of The Alternative?'
+          title={`Log out of ${siteName}?`}
           description='You can always log back in at any time. If you just want to switch accounts, you can do that by adding an existing account.'
           mainBtnLabel='Log out'
           action={signOut}

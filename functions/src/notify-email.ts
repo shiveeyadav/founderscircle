@@ -35,15 +35,15 @@ export const notifyEmail = regionalFunctions.firestore
       }
     });
 
-    const tweetLink = `${SITE_URL}/tweet/${snapshot.id}`;
+    const tweetLink = `${SITE_URL.value()}/tweet/${snapshot.id}`;
 
-    const emailHeader = `New Tweet${
+    const emailHeader = `New FoundersCircle post${
       parent ? ' reply' : ''
     } from ${name} (@${username})`;
 
     const emailText = `${text ?? 'No text provided'}${
       images ? ` (${imagesLength} image${imagesLength > 1 ? 's' : ''})` : ''
-    }\n\nLink to Tweet: ${tweetLink}\n\n- Firebase Function.`;
+    }\n\nLink to post: ${tweetLink}\n\n- Firebase Function.`;
 
     await client.sendMail({
       from: EMAIL_API.value(),
